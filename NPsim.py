@@ -20,15 +20,14 @@ curdir = os.getcwd()
 print(curdir)
 iterate = True
 
-
-################
-# transition rates (per 10 nanoseconds)
+# transition rates (per 10 nanoseconds):
+############ CHANGE THESE VALUES FOR EACH SIMULATION ############
 # QD1 - Scenario 1
 g12 = (4.2*10**6)*(10**(-8))
 g21 = (10**8)*(10**(-8))
 g23 = (10**6)*(10**(-8))
 g32 = (10**5)*(10**(-8))
-################
+############ CHANGE THESE VALUES FOR EACH SIMULATION ############
 
 f = g12/(g12+g21)
 R = g23/g32
