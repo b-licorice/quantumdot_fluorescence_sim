@@ -1,8 +1,11 @@
 import csv
 import os
 
-iterations = 15
+############ CHANGE THIS FOR EACH SIMULATION ############
 name = 'Scenario_1_QD1'
+############ CHANGE THIS FOR EACH SIMULATION ############
+
+iterations = 15
 
 with open('cache.csv', 'w') as file:
     write = csv.writer(file)
@@ -26,4 +29,4 @@ for i in range(iterations):
         write.writerow(new_iter)
         write.writerow(['name', name])
 
-# after final iteration --> make another csv with average measurements
+# todo: after final iteration --> make another csv with average measurements
