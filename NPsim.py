@@ -1,5 +1,4 @@
 import numpy as np
-import multiprocessing
 import random
 import math
 from collections import Counter
@@ -12,9 +11,8 @@ import os
 # Written and created by Bruce Lickey
 
 # -------------------------------
-# Version 2.2 Changelog:
-# *Automated iteration
-# Todo: Make exception for errors resulting from bad/empty trajectories
+# todo: read transition rates from an file rather than replacing variables each run
+# (apologies to has to run this before I've implemented that)
 # -------------------------------
 
 start = time.time()
@@ -22,43 +20,15 @@ curdir = os.getcwd()
 print(curdir)
 iterate = True
 
-# transition rates (per 10 nanoseconds)
 
+################
+# transition rates (per 10 nanoseconds)
 # QD1 - Scenario 1
 g12 = (4.2*10**6)*(10**(-8))
 g21 = (10**8)*(10**(-8))
 g23 = (10**6)*(10**(-8))
 g32 = (10**5)*(10**(-8))
-name = 'Scenario_1_QD1'
-
-# R = 100, f = ~0.05, fR = ~5
-# g12 = (5*10**5)*(10**(-8))
-# g21 = (10**7)*(10**(-8))
-# g23 = (10**7)*(10**(-8))
-# g32 = (10**5)*(10**(-8))
-# name = 'R100_f0.05'
-
-# R = 50, f = ~0.05, fR = ~2.5
-# g12 = (5*10**5)*(10**(-8))
-# g21 = (10**7)*(10**(-8))
-# g23 = (5*10**6)*(10**(-8))
-# g32 = (10**5)*(10**(-8))
-# name = 'R50_f0.05'
-
-# R = 100, f = ~0.5, fR = ~50
-# g12 = (10**7)*(10**(-8))
-# g21 = (10**7)*(10**(-8))
-# g23 = (10**7)*(10**(-8))
-# g32 = (10**5)*(10**(-8))
-# name = 'R100_f0.5'
-
-# # R = 1000, f = ~0.5, fR = ~500
-# g12 = (10**7)*(10**(-8))
-# g21 = (10**7)*(10**(-8))
-# g23 = (10**8)*(10**(-8))
-# g32 = (10**5)*(10**(-8))
-# name = 'R1000_f0.5'
-
+################
 
 f = g12/(g12+g21)
 R = g23/g32
@@ -123,11 +93,6 @@ if iterate:
                 current_iter = row[1]
 
 # the main algorithm of the program, which performs a series of calculations to output fluorescence for each 1-ms bin.
-# pool = multiprocessing.Pool()
-# bins = []
-# for i in range(0, tfinal):
-#     bins.append(i)
-
 for i in range(0, tfinal):
     sub_clock += 1
     if sub_clock == (10 ** 5):
@@ -304,7 +269,7 @@ log_t_on = log_elements(t_on)
 log_t_off = log_elements(t_off)
 
 
-# Plotting the data:
+# Plotting the data: #todo: maybe clean all this up a bit?
 
 def linfit(t, pd):  # function for generating the trendline
     fit_input = np.polyfit(t, pd, 1)
