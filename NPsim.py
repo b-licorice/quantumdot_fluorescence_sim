@@ -10,24 +10,29 @@ import os
 
 # Written and created by Bruce Lickey
 
-# -------------------------------
-# todo: read transition rates from an file rather than replacing variables each run
-# (apologies to has to run this before I've implemented that)
-# -------------------------------
-
 start = time.time()
 curdir = os.getcwd()
 print(curdir)
 iterate = True
 
-# transition rates (per 10 nanoseconds):
-############ CHANGE THESE VALUES FOR EACH SIMULATION ############
-# QD1 - Scenario 1
-g12 = (4.2*10**6)*(10**(-8))
-g21 = (10**8)*(10**(-8))
-g23 = (10**6)*(10**(-8))
-g32 = (10**5)*(10**(-8))
-############ CHANGE THESE VALUES FOR EACH SIMULATION ############
+# transition rates (per 10 nanoseconds)
+
+with open('currentsim.csv') as file:
+    read = csv.reader(file)
+    rowindex = 0
+    for row in read:
+        rowindex += 1
+        if rowindex == 1:
+            g12 = float(row[1])
+        if rowindex == 3:
+            g21 = float(row[1])
+        if rowindex == 5:
+            g23 = float(row[1])
+        if rowindex == 7:
+            g32 = float(row[1])
+        if rowindex == 9:
+            name = row[1]
+
 
 f = g12/(g12+g21)
 R = g23/g32
@@ -91,7 +96,6 @@ if iterate:
             if rowindex == 3:
                 current_iter = row[1]
 
-# the main algorithm of the program, which performs a series of calculations to output fluorescence for each 1-ms bin.
 for i in range(0, tfinal):
     sub_clock += 1
     if sub_clock == (10 ** 5):
@@ -268,7 +272,7 @@ log_t_on = log_elements(t_on)
 log_t_off = log_elements(t_off)
 
 
-# Plotting the data: #todo: maybe clean all this up a bit?
+# Plotting the data:
 
 def linfit(t, pd):  # function for generating the trendline
     fit_input = np.polyfit(t, pd, 1)
