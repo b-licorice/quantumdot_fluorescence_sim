@@ -19,10 +19,10 @@ with open('cache.csv', 'w') as file:
     write.writerow(['name', name])
 for i in range(iterations):
     os.system('NPsim.py')
-    iter_count += 1
     if iter_count == 15:
         np += 1
         iter_count = 0
+    iter_count += 1
     new_iter = ['current iteration']
     with open('cache.csv') as file:
         read = csv.reader(file)
